@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary idk</title>
+    <style>
+    
+    @font-face {
+      font-family: 'Dokyo'; 
+      src: url('fonts/DOKYO___.TTF') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap; 
+    }
+
+    @font-face {
+      font-family: 'Rubik Bubbles'; 
+      src: url('fonts/RubikBubbles-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap; 
+    }
+
+     @font-face {
+      font-family: 'Outfit'; 
+      src: url('fonts/Outfit-VariableFont_wght.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap; 
+    }
+
+    h2 {
+      font-family: 'Dokyo', Arial, sans-serif;
+      font-size: 42px;
+      text-align: center;
+      background: linear-gradient(to right, #173ea2, #43dfe4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    h2:hover {
+      transform: scale(1.1);
+      text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .labels {
+      font-family: 'Rubik Bubbles', Arial, sans-serif;
+      font-size: 18px;
+      background: linear-gradient(to right, #00ccff, #4888cd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    body {
+      font-family: Arial;
+      background: linear-gradient(to bottom right, #ffffff, #f8feff, #55e4f6)
+    }
+
+    .container {
+      width: 500px;
+      margin: auto;
+      background: linear-gradient(to bottom, #ffff, #f6fff2, #ecfae0, #adffa2b7);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 50px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, select {
+      width: 340px;
+      padding: 8px;
+      margin: 8px 0;
+      border: 2px solid #ddd;          
+      border-radius: 5px;          
+      font-size: 16px;
+      background: linear-gradient(to right, #f5fdf3, #a0f0f8, #55e4f6);
+      font-family: Outfit, sans-serif;
+    }
+
+    input:focus, select:focus {
+      transition: all 0.3s ease;
+      outline: none;
+      border-color: #41d046;         
+      box-shadow: 0 0 10px rgba(96, 255, 101, 0.716); 
+      background: linear-gradient(to right, #fffcd3, #e2ff9b);
+    }
+
+    input:hover {
+      border-color: #999;
+    }
+
+    #terms {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      cursor: pointer;
+      accent-color: #4CAF50;
+    }
+
+    button {
+      padding: 12px 20px;
+      width: 100%;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #45a049, #3d8b40);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 10px;
+      min-height: 18px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h2>BaryoBubble Pre-Order</h2>
+
+    <div id = "summary">
+        <p>Customer Name: <span id="nameSummary"></span></p>
+
+        <p>Product: <span id="productSummary"></span></p>
+
+        <p>Quantity: <span id="quantity"></span></p>
+
+        <p>Total Amount: <span id="totalSummary"></span></p>
+
+        <p>Pickup Method: <span id="pickupSummary"></span></p>
+        
+        <p>Address: <span id="addressSummary"></span></p>
+
+        <p>Thank you for your order! Please continue supporting BaryoBubble!</p>
+        <button onclick="window.location.href='index.html'">Back to Order Form</button>
+    </div>
+
+    
+</body>
+<script>
+    // COOKIE FUNCTIONS
+    function getCookie(name) {
+        let nameEq = name + "=";
+        let cookies = document.cookie.split(';');
+
+        for (let i = 0; i < cookies.length; i++) {
+            let c = cookies[i].trim();
+            if (c.indexOf(nameEq) == 0) {
+                return c.substring(nameEq.length, c.length);
+            }
+        }
+        return null;
+    }
+
+    function getProductName(value) {
+        if (value === "value1") {
+            return "BaryoBubble Guava Leaf Soap";
+        } else if (value === "value2") {
+            return "BaryoBubble Lemongrass Soap";
+        }
+        return value;
+    }
+
+    function total() {
+        let product = localStorage.getItem("product");
+        let quantity = parseInt(localStorage.getItem("quantity"));
+        let price = 0;
+
+        if (product === "value1") {
+            price = 10.50;
+        } else if (product === "value2") {
+            price = 11.00;
+        }
+        return price * quantity;
+    }
+
+    function summary() {
+        let nameDisplay = getCookie("name");
+        let productValue = localStorage.getItem("product");
+        let productDisplay = getProductName(productValue);
+        let quantityDisplay = localStorage.getItem("quantity");
+        let pickupDisplay = localStorage.getItem("pickup");
+        let addressDisplay = localStorage.getItem("address");
+
+        document.getElementById("nameSummary").innerHTML = nameDisplay;
+        document.getElementById("productSummary").innerHTML = productDisplay;
+        document.getElementById("quantity").innerHTML = quantityDisplay;
+        document.getElementById("pickupSummary").innerHTML = pickupDisplay;
+        document.getElementById("addressSummary").innerHTML = addressDisplay;
+        document.getElementById("totalSummary").innerHTML = "PHP " + total();
+    }
+
+    window.addEventListener('load', summary);
+
+</script>
+</html>

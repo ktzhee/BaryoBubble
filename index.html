@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pre-Order Form</title>
+  <style>
+    
+    @font-face {
+      font-family: 'Dokyo'; 
+      src: url('fonts/DOKYO___.TTF') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap; 
+    }
+
+    @font-face {
+      font-family: 'Rubik Bubbles'; 
+      src: url('fonts/RubikBubbles-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap; 
+    }
+
+     @font-face {
+      font-family: 'Outfit'; 
+      src: url('fonts/Outfit-VariableFont_wght.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap; 
+    }
+
+    h2 {
+      font-family: 'Dokyo', Arial, sans-serif;
+      font-size: 42px;
+      text-align: center;
+      background: linear-gradient(to right, #173ea2, #43dfe4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    h2:hover {
+      transform: scale(1.1);
+      text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .labels {
+      font-family: 'Rubik Bubbles', Arial, sans-serif;
+      font-size: 18px;
+      background: linear-gradient(to right, #00ccff, #4888cd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    body {
+      font-family: Arial;
+      background: linear-gradient(to bottom right, #ffffff, #f8feff, #55e4f6)
+    }
+
+    .container {
+      width: 500px;
+      margin: auto;
+      background: linear-gradient(to bottom, #ffff, #f6fff2, #ecfae0, #adffa2b7);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 50px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, select {
+      width: 340px;
+      padding: 8px;
+      margin: 8px 0;
+      border: 2px solid #ddd;          
+      border-radius: 5px;          
+      font-size: 16px;
+      background: linear-gradient(to right, #f5fdf3, #a0f0f8, #55e4f6);
+      font-family: Outfit, sans-serif;
+    }
+
+    input:focus, select:focus {
+      transition: all 0.3s ease;
+      outline: none;
+      border-color: #41d046;         
+      box-shadow: 0 0 10px rgba(96, 255, 101, 0.716); 
+      background: linear-gradient(to right, #fffcd3, #e2ff9b);
+    }
+
+    input:hover {
+      border-color: #999;
+    }
+
+    #terms {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      cursor: pointer;
+      accent-color: #4CAF50;
+    }
+
+    button {
+      padding: 12px 20px;
+      width: 100%;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #45a049, #3d8b40);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 10px;
+      min-height: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>BaryoBubble Pre-Order</h2>
+
+  <!-- Error Message Area -->
+  <div id="errorMsg" class="error"></div>
+
+  <form onsubmit="return handleOrder()">
+    
+    <label class="labels">Name:</label><br>
+    <input type="text" id="name"><br>
+
+    <label class="labels">Product:</label><br>
+    <select id="variant">
+      <option value="">Select</option>
+      <option value="value1">BaryoBubble Guava Leaf Soap [PHP 10.50]</option>
+      <option value="value2">BaryoBubble Lemongrass Soap [PHP 11.00]</option>
+    </select><br>
+
+    <label class="labels">Quantity:</label><br>
+    <input type="number" id="quantity"><br>
+
+    <label class="labels">Pickup Method:</label><br>
+    <select id="pickup">
+      <option value="">Select</option>
+      <option value="Delivery">Delivery</option>
+      <option value="Meetup">Meetup</option>
+    </select><br>
+
+    <label class="labels">Address (for delivery only):</label><br>
+    <input type="text" id="address"><br>
+
+    <label>
+      <input type="checkbox" id="terms"> I accept terms
+    </label><br>
+    <br><br>
+
+    <button type="button" onclick="loadPreviousOrder()">Load Previous Order</button>
+    <button type="submit">Submit</button>
+
+  </form>
+</div>
+
+<script>
+
+  // COOKIE FUNCTIONS
+  function setCookie(name, value, maxAge) {
+    let Sulli = name + "=" + value + ";";
+    if (maxAge>3600) {
+      Sulli += "max-age=" + maxAge + ";";
+    }
+    document.cookie = Sulli;
+  }
+
+  function getCookie(name) {
+    let nameEq = name + "=";
+    let cookies = document.cookie.split(';');
+
+    for (let i = 0; i< cookies.length; i++) {
+      let c = cookies[i].trim();
+
+      if (c.indexOf(nameEq) == 0) {
+        return c.substring(nameEq.length, c.length);
+      }
+    }
+
+    return null;
+  }
+
+  function deleteCookie(name) {
+
+  }
+
+  // MAIN SUBMIT HANDLER
+  function handleOrder() {
+    document.getElementById("errorMsg").innerHTML = "";
+
+    function validateForm() {
+      let name = document.getElementById("name").value;
+      let product = document.getElementById("variant").value;
+      let quantity = document.getElementById("quantity").value;
+      let pickup = document.getElementById("pickup").value;
+      let address = document.getElementById("address").value;
+      let terms = document.getElementById("terms").checked;
+
+      if (name === "" || product === "" || quantity === "" || pickup === "") {
+        return "The following fields are required: Name, Product, Quantity, Pickup Method.";
+      }
+
+      if (quantity < 0) {
+        return "Please enter a valid quantity.";
+      }
+
+      if (pickup === "Delivery" && address === "") {
+        return "Please provide an address for delivery.";
+      }
+
+      if (!terms) {
+        return "You must accept the terms to proceed.";
+      }
+
+      return null; 
+    }
+        
+    if (validateForm()) {
+      document.getElementById("errorMsg").innerHTML = validateForm();
+      return false;
+    }
+
+    
+    let name = document.getElementById("name").value;
+    let product = document.getElementById("variant").value;
+    let quantity = document.getElementById("quantity").value;
+    let pickup = document.getElementById("pickup").value;
+    let address = document.getElementById("address").value;
+
+    setCookie("name", name, 3600);
+    localStorage.setItem("product", product);
+    localStorage.setItem("quantity", quantity);
+    localStorage.setItem("pickup", pickup);
+    localStorage.setItem("address", address);
+
+    window.location.href = "summary.html";
+
+    return false;
+  }
+
+  // LOAD PREVIOUS ORDER
+  function loadPreviousOrder() {
+    let name = getCookie("name");
+    let product = localStorage.getItem("product");
+    let quantity = localStorage.getItem("quantity");
+    let pickup = localStorage.getItem("pickup");
+    let address = localStorage.getItem("address");
+
+    if (!name && !product && !quantity && !pickup && !address) {
+      document.getElementById("errorMsg").innerHTML = "No previous order data";
+      return;
+    }
+
+    if (name) document.getElementById("name").value = name;
+    if (product) document.getElementById("variant").value = product;
+    if (quantity) document.getElementById("quantity").value = quantity;
+    if (pickup) document.getElementById("pickup").value = pickup;
+    if (address) document.getElementById("address").value = address;
+    document.getElementById("errorMsg").innerHTML = "";
+  }
+
+</script>
+
+</body>
+</html>
